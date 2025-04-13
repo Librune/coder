@@ -1,0 +1,3 @@
+[submodule "src-tauri/book_core"]
+	path = src-tauri/book_core
+	url = https://github.com/Librune/core.git
