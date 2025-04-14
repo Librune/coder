@@ -80,6 +80,9 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
           width={!code ? '100%' : 'calc(100vw - 450px)'}
           language="typescript"
           options={{
+            stickyScroll: {
+              enabled: false,
+            },
             automaticLayout: true,
             minimap: { enabled: false },
             renderLineHighlight: 'none',

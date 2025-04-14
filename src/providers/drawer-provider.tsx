@@ -64,7 +64,7 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
       {/* {children} */}
 
       {/* DaisyUI Drawer */}
-      <div className="drawer">
+      <div className="drawer h-full">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">{children}</div>
         <div className="drawer-side">

@@ -37,21 +37,17 @@ const Editor = () => {
       <div className="flex flex-grow flex-col md:flex-row h-full pt-1 ">
         <div className="flex-1 flex h-full flex-col pr-2 relative">
           <div className="flex-row pl-4">
-            <button className="btn btn-ghost btn-sm">
-              <span className="mgc_add_line text-[15px]"></span>
-              <div className="text-[13px] font-normal">新建</div>
-            </button>
-            <button className="btn btn-ghost btn-sm">
-              <span className="mgc_folder_open_line text-[15px]"></span>
-              <div className="text-[13px] font-normal">打开</div>
-            </button>
-            <button className="btn btn-ghost btn-sm">
-              <span className="mgc_folder_download_line text-[15px]"></span>
-              <div className="text-[13px] font-normal">保存</div>
+            <button className="btn btn-ghost btn-sm" onClick={handleSubmitCode}>
+              <span className="mgc_play_line text-[15px]"></span>
+              <div className="text-[13px] font-normal">运行</div>
             </button>
             <button className="btn btn-ghost btn-sm">
               <span className="mgc_refresh_2_line text-[15px]"></span>
               <div className="text-[13px] font-normal">重置</div>
+            </button>
+            <button className="btn btn-ghost btn-sm">
+              <span className="mgc_folder_download_line text-[15px]"></span>
+              <div className="text-[13px] font-normal">保存</div>
             </button>
             <button
               className="btn btn-ghost btn-sm"
@@ -68,12 +64,6 @@ const Editor = () => {
             </button>
           </div>
           <CodeEditor ref={codeEditorRef} />
-          <button
-            className="btn btn-circle absolute btn-accent bottom-4 right-4 z-[1000px]"
-            onClick={handleSubmitCode}
-          >
-            <span className="mgc_arrow_right_line" />
-          </button>
         </div>
         {!!code && (
           <div className="w-[450px] flex-col flex mr-4 overflow-auto">
