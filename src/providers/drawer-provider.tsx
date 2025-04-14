@@ -4,6 +4,7 @@ import React, {
   useState,
   ReactNode,
   useCallback,
+  ChangeEventHandler,
 } from 'react'
 
 // 定义 Drawer 的 Props 类型
@@ -13,7 +14,6 @@ interface DrawerProps {
   footer?: ReactNode
   width?: string | number
   className?: string
-  showClose?: boolean
   end?: boolean
   onClose?: () => void
 }
@@ -32,20 +32,16 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [drawerProps, setDrawerProps] = useState<DrawerProps | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const { showClose = true, end = false } = drawerProps || {}
+  const { end = false } = drawerProps || {}
 
   // 打开 Drawer
   const open = useCallback((options: DrawerProps) => {
     setDrawerProps(options)
-    // setIsOpen(true)
     document.getElementById('my-drawer')?.click()
   }, [])
 
   // 关闭 Drawer
   const close = useCallback(() => {
-    setIsOpen(false)
-    // 延迟清空内容，保证关闭动画完成后再清空内容
     setTimeout(() => {
       setDrawerProps(null)
     }, 300)
@@ -59,10 +55,21 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
     close()
   }, [drawerProps, close])
 
+  const handleToggle: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (!e.target.checked) {
+      handleClose()
+    }
+  }
+
   return (
     <DrawerContext.Provider value={{ open, close }}>
       <div className={`drawer ${end && 'drawer-end'} h-full`}>
-        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <input
+          id="my-drawer"
+          type="checkbox"
+          className="drawer-toggle"
+          onChange={handleToggle}
+        />
         <div className="drawer-content">{children}</div>
         <div className="drawer-side">
           <label
