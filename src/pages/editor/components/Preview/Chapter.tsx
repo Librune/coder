@@ -19,6 +19,9 @@ const Chapter = () => {
       setChapter(value)
     }
   }, [value])
+  useEffect(() => {
+    setChapter({})
+  }, [bid])
   return (
     <div className="p-4">
       <div className="flex items-center mb-3">

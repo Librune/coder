@@ -19,7 +19,7 @@ const SearchBooks = () => {
         page: 0,
         count: 10,
       })
-      setSearchResult(res)
+      setSearchResult(res.slice(0, 3))
     },
     [code, key]
   )
@@ -29,7 +29,7 @@ const SearchBooks = () => {
         <div className="badge badge-neutral">搜索书籍</div>
       </div>
       <div className="option text-xs font-normal text-neutral-500 mb-2">
-        搜索后点击卡片以进行下一步
+        只展示前三条搜索结果，点击书籍卡片以进行下一步
       </div>
       <fieldset className="fieldset flex" style={{ padding: '0 0 0 0' }}>
         <input
