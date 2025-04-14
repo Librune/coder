@@ -80,9 +80,9 @@ const Editor = () => {
           <CodeEditor ref={codeEditorRef} />
         </div>
         {!!code && (
-          <div className="w-[450px] h-[calc(100vh-32px)] flex-col flex mr-4 overflow-auto">
+          <div className="w-[450px] h-[calc(100vh-48px)] flex-col flex mr-4">
             {/* <NavBar /> */}
-            <div className="flex-1 bg-neutral-100/50 w-full rounded-lg mt-1 border border-neutral-300">
+            <div className="bg-neutral-100/50 w-full h-full rounded-lg mt-1 border border-neutral-300 overflow-auto">
               {/* <MetaData />
               <SearchBooks /> */}
               {/* <BookSourceFormGroup /> */}
