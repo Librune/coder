@@ -26,4 +26,5 @@ window-vibrancy = "0.6.0"
 cocoa = "0.26.0"
 book_core = { git = "https://github.com/Librune/core"}
 tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
 

@@ -5,6 +5,8 @@ import { useModal } from '@/providers/modal-provider'
 import Preview from './components/Preview'
 import { invoke } from '@tauri-apps/api/core'
 import { useDrawer } from '@/providers/drawer-provider'
+import { message, save } from '@tauri-apps/plugin-dialog'
+import { exists, writeTextFile } from '@tauri-apps/plugin-fs'
 
 const Editor = () => {
   const codeEditorRef = useRef<CodeEditorRef>(null)
@@ -14,17 +16,29 @@ const Editor = () => {
   const handleSubmitCode = async () => {
     try {
       const code = await codeEditorRef.current?.getCode()
-      // console.log('code:', code)
       const uuid = await invoke<string>('emit_code', { code })
       setCode(code!)
       setUuid(uuid)
-      // const res = await invoke('get_metadata', { code })
-      // console.log('res:', res)
     } catch (err) {
-      openModal({
-        title: '错误',
-        content: String(err),
+      message(String(err), { title: '代码错误', kind: 'error' })
+    }
+  }
+
+  const handleSave = async () => {
+    try {
+      const code = await codeEditorRef.current?.getCode()
+      const path = await save({
+        filters: [
+          {
+            name: 'Untitled',
+            extensions: ['js'],
+          },
+        ],
       })
+      if (path === null) return
+      await writeTextFile(path, code!)
+    } catch (err) {
+      message(String(err), { title: '代码错误', kind: 'error' })
     }
   }
   useEffect(() => {
@@ -45,7 +59,7 @@ const Editor = () => {
               <span className="mgc_refresh_2_line text-[15px]"></span>
               <div className="text-[13px] font-normal">重置</div>
             </button>
-            <button className="btn btn-ghost btn-sm">
+            <button className="btn btn-ghost btn-sm" onClick={handleSave}>
               <span className="mgc_folder_download_line text-[15px]"></span>
               <div className="text-[13px] font-normal">保存</div>
             </button>
@@ -66,7 +80,7 @@ const Editor = () => {
           <CodeEditor ref={codeEditorRef} />
         </div>
         {!!code && (
-          <div className="w-[450px] flex-col flex mr-4 overflow-auto">
+          <div className="w-[450px] h-[calc(100vh-32px)] flex-col flex mr-4 overflow-auto">
             {/* <NavBar /> */}
             <div className="flex-1 bg-neutral-100/50 w-full rounded-lg mt-1 border border-neutral-300">
               {/* <MetaData />
