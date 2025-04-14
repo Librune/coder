@@ -14,7 +14,7 @@ interface DrawerProps {
   width?: string | number
   className?: string
   showClose?: boolean
-  position?: 'left' | 'right' // 抽屉位置
+  end?: boolean
   onClose?: () => void
 }
 
@@ -33,7 +33,7 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [drawerProps, setDrawerProps] = useState<DrawerProps | null>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const { showClose = true, position = 'right' } = drawerProps || {}
+  const { showClose = true, end = false } = drawerProps || {}
 
   // 打开 Drawer
   const open = useCallback((options: DrawerProps) => {
@@ -61,10 +61,7 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <DrawerContext.Provider value={{ open, close }}>
-      {/* {children} */}
-
-      {/* DaisyUI Drawer */}
-      <div className="drawer h-full">
+      <div className={`drawer ${end && 'drawer-end'} h-full`}>
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">{children}</div>
         <div className="drawer-side">
@@ -88,7 +85,6 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
   )
 }
 
-// 自定义 Hook 用于在组件中使用 Drawer
 export const useDrawer = () => {
   const context = useContext(DrawerContext)
   if (context === undefined) {
