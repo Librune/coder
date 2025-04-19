@@ -1,15 +1,14 @@
 import { useAsync } from 'react-use'
-import { useEditor, usePreview, usePreviewActions } from '../../provider'
+import { usePreview, usePreviewActions } from '../../provider'
 import { useEffect } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 
 const Chapter = () => {
-  const { uuid } = useEditor()
   const { cid, chapter, bid } = usePreview()
   const { setChapter } = usePreviewActions()
   const { value } = useAsync(async () => {
     if (cid) {
-      return await invoke<any>('get_chapter', { uuid, cid, bid })
+      return await invoke<any>('get_chapter', { cid, bid })
     } else {
       return undefined
     }
@@ -22,7 +21,7 @@ const Chapter = () => {
   useEffect(() => {
     setChapter({})
   }, [bid])
-  return (
+  return !!value ? (
     <div className="p-4">
       <div className="flex items-center mb-3">
         <div className="badge badge-neutral">正文内容</div>
@@ -33,6 +32,8 @@ const Chapter = () => {
           : '暂无正文'}
       </div>
     </div>
+  ) : (
+    <></>
   )
 }
 

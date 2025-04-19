@@ -4,7 +4,8 @@ import { editor } from 'monaco-editor'
 import { useWindowSize } from 'react-use'
 import declare from '../../../libs/declare.d.ts?raw'
 import { convert } from '../../../libs/convert'
-import { useEditor } from '../provider'
+import { usePreview } from '../provider'
+// import { useEditor } from '../provider'
 
 export interface CodeEditorRef {
   getCode: () => Promise<string | undefined>
@@ -15,7 +16,8 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
   const monaco = useMonaco()
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
   const windowSize = useWindowSize()
-  const { code } = useEditor()
+  // const { code } = useEditor()
+  const { metadata } = usePreview()
 
   useEffect(() => {
     editorRef.current?.layout()
@@ -77,7 +79,7 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
     <div className="flex-1 mt-2">
       <div id="coder" className="h-full">
         <Editor
-          width={!code ? '100%' : 'calc(100vw - 450px)'}
+          width={!metadata ? '100%' : 'calc(100vw - 450px)'}
           language="typescript"
           options={{
             stickyScroll: {

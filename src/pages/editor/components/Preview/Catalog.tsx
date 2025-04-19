@@ -1,15 +1,15 @@
 import { useAsync } from 'react-use'
-import { useEditor, usePreview, usePreviewActions } from '../../provider'
+import { usePreview, usePreviewActions } from '../../provider'
 import { invoke } from '@tauri-apps/api/core'
 import { useEffect } from 'react'
 
 const Catalog = () => {
-  const { uuid } = useEditor()
+  // const { uuid } = useEditor()
   const { catalog, bid } = usePreview()
   const { setCatalog, setCid } = usePreviewActions()
   const { value } = useAsync(async () => {
     if (bid) {
-      return await invoke<any[]>('get_catalog', { uuid, bid })
+      return await invoke<any[]>('get_catalog', { bid })
     } else {
       return undefined
     }
@@ -19,7 +19,7 @@ const Catalog = () => {
       setCatalog(value)
     }
   }, [value])
-  return (
+  return !!value ? (
     <div className="p-4">
       <div className="flex items-center mb-3">
         <div className="badge badge-neutral">书籍目录</div>
@@ -49,6 +49,8 @@ const Catalog = () => {
           </div>
         ))}
     </div>
+  ) : (
+    <></>
   )
 }
 

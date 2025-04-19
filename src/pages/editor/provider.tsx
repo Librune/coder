@@ -1,57 +1,57 @@
-import { MetaData } from '@/libs/declare'
+import { Form, MetaData } from '@/libs/declare'
 import {
   createContext,
   PropsWithChildren,
   useContext,
   useMemo,
   useReducer,
-  useState,
 } from 'react'
 
-export type EditorProviderContextType = {
-  code: string
-  uuid?: string
-  setCode: (code: string) => void
-  setUuid: (uuid: string) => void
-}
+// export type EditorProviderContextType = {
+//   code: string
+//   uuid?: string
+//   setCode: (code: string) => void
+//   setUuid: (uuid: string) => void
+// }
 
-export type EditorProviderProps = {}
+// export type EditorProviderProps = {}
 
-const EditorProviderContext = createContext<EditorProviderContextType>({
-  code: '',
-  setCode: () => {},
-  setUuid: () => {},
-})
+// const EditorProviderContext = createContext<EditorProviderContextType>({
+//   code: '',
+//   setCode: () => {},
+//   setUuid: () => {},
+// })
 
-const useEditor = () => useContext(EditorProviderContext)
+// const useEditor = () => useContext(EditorProviderContext)
 
-const EditorProvider = ({
-  children,
-}: PropsWithChildren<EditorProviderProps>) => {
-  const [code, setCode] = useState<string>('')
-  const [uuid, setUuid] = useState<string>('')
-  const contextValue = useMemo(
-    () => ({
-      code,
-      setCode,
-      uuid,
-      setUuid,
-    }),
-    [code, uuid]
-  )
-  return (
-    <EditorProviderContext.Provider value={contextValue}>
-      <PreviewProvider>{children}</PreviewProvider>
-    </EditorProviderContext.Provider>
-  )
-}
+// const EditorProvider = ({
+//   children,
+// }: PropsWithChildren<EditorProviderProps>) => {
+//   const [code, setCode] = useState<string>('')
+//   const [uuid, setUuid] = useState<string>('')
+//   const contextValue = useMemo(
+//     () => ({
+//       code,
+//       setCode,
+//       uuid,
+//       setUuid,
+//     }),
+//     [code, uuid]
+//   )
+//   return (
+//     <EditorProviderContext.Provider value={contextValue}>
+//       <PreviewProvider>{children}</PreviewProvider>
+//     </EditorProviderContext.Provider>
+//   )
+// }
 
-export default EditorProvider
+// export default EditorProvider
 
-export { useEditor }
+// export { useEditor }
 
 export type PreviewProviderContextType = {
-  metadata: MetaData
+  metadata?: MetaData
+  forms?: Form[]
   searchKey?: string
   searchResult?: any[]
   bid?: string
@@ -72,6 +72,8 @@ const priviewReducer = (
   switch (action.type) {
     case 'SET_METADATA':
       return { ...state, metadata: action.payload }
+    case 'SET_FORM':
+      return { ...state, forms: action.payload }
     case 'SET_SEARCH_KEY':
       return { ...state, searchKey: action.payload }
     case 'SET_SEARCH_RESULT':
@@ -93,6 +95,7 @@ const priviewReducer = (
 
 type PreviewActions = {
   setMetadata: (metadata: MetaData) => void
+  setForm: (form: Form[]) => void
   setSearchKey: (key: string) => void
   setSearchResult: (result: any[]) => void
   setBid: (bid: string) => void
@@ -112,6 +115,7 @@ export const usePreview = () => {
 
 const PreviewActionsContext = createContext<PreviewActions>({
   setMetadata: () => {},
+  setForm: () => {},
   setSearchKey: () => {},
   setSearchResult: () => {},
   setBid: () => {},
@@ -129,21 +133,23 @@ export const usePreviewActions = () => {
   return context
 }
 
-const PreviewProvider = ({ children }: PropsWithChildren<{}>) => {
+const EditorProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(priviewReducer, {
-    metadata: {} as MetaData,
+    metadata: undefined,
+    forms: undefined,
     searchKey: '',
     searchResult: [],
-    bookDetail: {},
-    catalog: [],
+    bookDetail: undefined,
+    catalog: undefined,
     cid: '',
-    chapter: {},
+    chapter: undefined,
   })
 
   const actions = useMemo(
     () => ({
       setMetadata: (metadata: MetaData) =>
         dispatch({ type: 'SET_METADATA', payload: metadata }),
+      setForm: (form: Form[]) => dispatch({ type: 'SET_FORM', payload: form }),
       setSearchKey: (key: string) =>
         dispatch({ type: 'SET_SEARCH_KEY', payload: key }),
       setSearchResult: (result: any[]) =>
@@ -169,3 +175,5 @@ const PreviewProvider = ({ children }: PropsWithChildren<{}>) => {
     </PreviewProviderContext.Provider>
   )
 }
+
+export default EditorProvider

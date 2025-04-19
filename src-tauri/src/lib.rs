@@ -30,13 +30,12 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            cmds::script_exec,
             cmds::get_metadata,
             cmds::search_books,
             cmds::get_form,
             cmds::emit_code,
-            cmds::set_env,
-            cmds::run_action,
+            // cmds::set_env,
+            // cmds::run_action,
             cmds::get_book_detail,
             cmds::get_catalog,
             cmds::get_chapter

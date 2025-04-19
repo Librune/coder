@@ -1,14 +1,7 @@
-import { useAsync } from 'react-use'
-import { useEditor } from '../../provider'
-import { invoke } from '@tauri-apps/api/core'
-import { MetaData as MetaDataType } from '@/libs/declare'
+import { usePreview } from '../../provider'
 
 const MetaData = () => {
-  const { code } = useEditor()
-  const { value: metadata } = useAsync(async () => {
-    const res = await invoke<string>('get_metadata', { code })
-    return JSON.parse(res) as MetaDataType
-  }, [code])
+  const { metadata } = usePreview()
   return (
     <div className="card">
       {!metadata ? (

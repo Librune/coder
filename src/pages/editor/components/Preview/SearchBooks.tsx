@@ -1,28 +1,21 @@
 import { useState } from 'react'
-import { useEditor, usePreview, usePreviewActions } from '../../provider'
-import { useAsyncFn } from 'react-use'
+import { usePreview, usePreviewActions } from '../../provider'
 import { invoke } from '@tauri-apps/api/core'
 import BookItem from './BookItem'
 
 const SearchBooks = () => {
-  const { code, uuid } = useEditor()
+  // const { code, uuid } = useEditor()
   const [key, setKey] = useState<string>('')
   const { searchResult = [] } = usePreview()
-  const { setSearchKey, setSearchResult } = usePreviewActions()
-  const [_loading, onSearch] = useAsyncFn(
-    async (code: string, key: string) => {
-      setSearchKey(key)
-      const res = await invoke<Record<string, any>[]>('search_books', {
-        uuid,
-        code,
-        key,
-        page: 0,
-        count: 10,
-      })
-      setSearchResult(res.slice(0, 3))
-    },
-    [code, key]
-  )
+  const { setSearchResult } = usePreviewActions()
+  const onSearch = async (key: string) => {
+    const res = await invoke<Record<string, any>[]>('search_books', {
+      key,
+      page: 0,
+      count: 10,
+    })
+    setSearchResult(res.slice(0, 3))
+  }
   return (
     <div className="p-4">
       <div className="flex items-center mb-3">
@@ -41,7 +34,7 @@ const SearchBooks = () => {
         />
         <button
           className="btn btn-sm btn-outline btn-accent ml-4"
-          onClick={() => onSearch(code, key)}
+          onClick={() => onSearch(key)}
         >
           <span className="mgc_search_line text-[15px]"></span>
           <div className="text-[13px] font-normal">搜索</div>
