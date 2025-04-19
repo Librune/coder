@@ -25,11 +25,29 @@ pub fn get_metadata() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub fn get_form() -> Result<String, String> {
+pub fn get_forms() -> Result<String, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
-        bks.get_form()
+        bks.get_forms()
+    })
+}
+
+#[tauri::command]
+pub fn get_actions() -> Result<String, String> {
+    BKS.with(|bks| {
+        let mut bks = bks.borrow_mut();
+        let bks = bks.as_mut().unwrap();
+        bks.get_actions()
+    })
+}
+
+#[tauri::command]
+pub fn run_action(action: String) -> Result<String, String> {
+    BKS.with(|bks| {
+        let mut bks = bks.borrow_mut();
+        let bks = bks.as_mut().unwrap();
+        bks.run_action(action)
     })
 }
 
@@ -45,11 +63,6 @@ pub fn search_books(key: String, page: u8, count: u8) -> Result<Value, String> {
 // #[tauri::command]
 // pub fn set_env(uuid: String, env: HashMap<String, String>) {
 //     book_core::set_env(uuid, env);
-// }
-
-// #[tauri::command]
-// pub fn run_action(uuid: String, action: String) -> Result<Value, String> {
-//     book_core::run_action(uuid, action)
 // }
 
 #[tauri::command]

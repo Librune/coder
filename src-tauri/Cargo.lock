@@ -545,7 +545,7 @@ dependencies = [
 [[package]]
 name = "book_core"
 version = "0.1.0"
-source = "git+https://github.com/Librune/core#922294996d102c39178ab8ee07c91ed95fb02aab"
+source = "git+https://github.com/Librune/core#7cb4a98cef33e182f98bb6012264b10de888911c"
 dependencies = [
  "aes",
  "base64 0.22.1",

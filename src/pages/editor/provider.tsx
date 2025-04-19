@@ -52,6 +52,7 @@ import {
 export type PreviewProviderContextType = {
   metadata?: MetaData
   forms?: Form[]
+  actions?: any[]
   searchKey?: string
   searchResult?: any[]
   bid?: string
@@ -74,6 +75,8 @@ const priviewReducer = (
       return { ...state, metadata: action.payload }
     case 'SET_FORM':
       return { ...state, forms: action.payload }
+    case 'SET_ACTIONS':
+      return { ...state, actions: action.payload }
     case 'SET_SEARCH_KEY':
       return { ...state, searchKey: action.payload }
     case 'SET_SEARCH_RESULT':
@@ -96,6 +99,7 @@ const priviewReducer = (
 type PreviewActions = {
   setMetadata: (metadata: MetaData) => void
   setForm: (form: Form[]) => void
+  setActions: (actions: any[]) => void
   setSearchKey: (key: string) => void
   setSearchResult: (result: any[]) => void
   setBid: (bid: string) => void
@@ -116,6 +120,7 @@ export const usePreview = () => {
 const PreviewActionsContext = createContext<PreviewActions>({
   setMetadata: () => {},
   setForm: () => {},
+  setActions: () => {},
   setSearchKey: () => {},
   setSearchResult: () => {},
   setBid: () => {},
@@ -137,6 +142,7 @@ const EditorProvider = ({ children }: PropsWithChildren<{}>) => {
   const [state, dispatch] = useReducer(priviewReducer, {
     metadata: undefined,
     forms: undefined,
+    actions: undefined,
     searchKey: '',
     searchResult: [],
     bookDetail: undefined,
@@ -150,6 +156,8 @@ const EditorProvider = ({ children }: PropsWithChildren<{}>) => {
       setMetadata: (metadata: MetaData) =>
         dispatch({ type: 'SET_METADATA', payload: metadata }),
       setForm: (form: Form[]) => dispatch({ type: 'SET_FORM', payload: form }),
+      setActions: (actions: any[]) =>
+        dispatch({ type: 'SET_ACTIONS', payload: actions }),
       setSearchKey: (key: string) =>
         dispatch({ type: 'SET_SEARCH_KEY', payload: key }),
       setSearchResult: (result: any[]) =>

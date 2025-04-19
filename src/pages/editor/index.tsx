@@ -11,7 +11,7 @@ import EditorProvider, { usePreview, usePreviewActions } from './provider'
 
 const Editor = () => {
   const codeEditorRef = useRef<CodeEditorRef>(null)
-  const { setMetadata, setForm } = usePreviewActions()
+  const { setMetadata, setForm, setActions } = usePreviewActions()
   const { metadata } = usePreview()
   // const { setCode, code, setUuid } = useEditor()
   const { open: openModal } = useModal()
@@ -24,9 +24,11 @@ const Editor = () => {
       // setUuid('uuid')
       try {
         const metadata = await invoke<string>('get_metadata')
-        const form = await invoke<string>('get_form')
+        const forms = await invoke<string>('get_forms')
+        const actions = await invoke<string>('get_actions')
         setMetadata(JSON.parse(metadata))
-        setForm(JSON.parse(form))
+        setForm(JSON.parse(forms))
+        setActions(JSON.parse(actions))
       } catch (err) {
         console.log('err:', err)
         message(String(err), { title: '调用错误', kind: 'error' })

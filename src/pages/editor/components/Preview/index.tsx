@@ -1,3 +1,4 @@
+import Actions from './Actions'
 import BookDetail from './BookDetail'
 import Catalog from './Catalog'
 import Chapter from './Chapter'
@@ -10,6 +11,7 @@ const Preview = () => {
     <>
       <MetaData />
       <Forms />
+      <Actions />
       <SearchBooks />
       <BookDetail />
       <Catalog />
