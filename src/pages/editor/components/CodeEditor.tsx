@@ -1,11 +1,9 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import { Editor, useMonaco } from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
-import { useMeasure, useSize, useWindowSize } from 'react-use'
+import { useMeasure } from 'react-use'
 import declare from '../../../libs/declare.d.ts?raw'
 import { convert } from '../../../libs/convert'
-import { usePreview } from '../provider'
-// import { useEditor } from '../provider'
 
 export interface CodeEditorRef {
   getCode: () => Promise<string | undefined>
@@ -15,15 +13,6 @@ export interface CodeEditorRef {
 const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
   const monaco = useMonaco()
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
-  // const windowSize = useWindowSize()
-  // const { code } = useEditor()
-  // const { metadata } = usePreview()
-
-  // useEffect(() => {
-  //   editorRef.current?.layout()
-  // }, [windowSize])
-
-  // 暴露getCode方法给父组件
   useImperativeHandle(ref, () => ({
     getCode: () => convert(monaco, editorRef),
     layout: () => {

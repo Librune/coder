@@ -1,29 +1,22 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import CodeEditor, { CodeEditorRef } from './components/CodeEditor'
-// import EditorProvider, { useEditor } from './provider'
-import { useModal } from '@/providers/modal-provider'
 import Preview from './components/Preview'
 import { invoke } from '@tauri-apps/api/core'
 import { useDrawer } from '@/providers/drawer-provider'
 import { message, save } from '@tauri-apps/plugin-dialog'
-import { exists, writeTextFile } from '@tauri-apps/plugin-fs'
+import { writeTextFile } from '@tauri-apps/plugin-fs'
 import EditorProvider, { usePreview, usePreviewActions } from './provider'
-import NavBar from './components/NavBar'
 import LogPreview from '@/components/Log'
 
 const Editor = () => {
   const codeEditorRef = useRef<CodeEditorRef>(null)
   const { setMetadata, setForm, setActions } = usePreviewActions()
   const { metadata } = usePreview()
-  // const { setCode, code, setUuid } = useEditor()
-  const { open: openModal } = useModal()
   const { open } = useDrawer()
   const handleSubmitCode = async () => {
     try {
       const code = await codeEditorRef.current?.getCode()
       await invoke<string>('emit_code', { code })
-      // setCode(code!)
-      // setUuid('uuid')
       try {
         const metadata = await invoke<string>('get_metadata')
         const forms = await invoke<string>('get_forms')

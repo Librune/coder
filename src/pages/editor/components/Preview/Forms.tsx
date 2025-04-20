@@ -10,9 +10,11 @@ const InputCmp = {
 
 const Forms = () => {
   const { forms } = usePreview()
-  const { register, handleSubmit, reset } = useForm()
+  const { register, handleSubmit } = useForm()
 
   const onSubmit = async (data: any, event: any) => {
+    console.log('data:', data)
+    console.log('event:', event)
     // const id = event.nativeEvent.submitter.id
     // await invoke('set_env', { uuid, env: data })
     // try {
