@@ -1,10 +1,15 @@
 import { Form, MetaData } from '@/libs/declare'
+import { listen } from '@tauri-apps/api/event'
+import { log } from 'console'
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
+  useState,
 } from 'react'
 
 // export type EditorProviderContextType = {

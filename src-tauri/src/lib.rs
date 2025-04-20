@@ -1,4 +1,5 @@
 mod cmds;
+mod log;
 
 use tauri::Manager;
 use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial};

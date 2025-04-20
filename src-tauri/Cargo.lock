@@ -545,7 +545,7 @@ dependencies = [
 [[package]]
 name = "book_core"
 version = "0.1.0"
-source = "git+https://github.com/Librune/core#7cb4a98cef33e182f98bb6012264b10de888911c"
+source = "git+https://github.com/Librune/core#9780c4b57b316caff0abb9265476c942a53edae0"
 dependencies = [
  "aes",
  "base64 0.22.1",
@@ -3559,6 +3559,9 @@ checksum = "20675572f6f24e9e76ef639bc5552774ed45f1c30e2951e1e99c59888861c539"
 name = "reader-coder"
 version = "0.1.0"
 dependencies = [
+ "boa_engine",
+ "boa_gc",
+ "boa_runtime",
  "book_core",
  "cocoa",
  "once_cell",

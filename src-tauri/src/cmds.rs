@@ -2,16 +2,22 @@ use std::cell::RefCell;
 
 use book_core::BookCore;
 use serde_json::Value;
+use tauri::{AppHandle, Emitter};
+
+use crate::log::TauriLogger;
 
 thread_local! {
     static BKS: RefCell<Option<BookCore>> = RefCell::new(None);
 }
 
 #[tauri::command]
-pub fn emit_code(code: String) {
+pub fn emit_code(app: AppHandle, code: String) {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         *bks = Some(BookCore::init(code, None));
+        bks.as_mut()
+            .unwrap()
+            .regist_cust_logger(TauriLogger { app });
     })
 }
 

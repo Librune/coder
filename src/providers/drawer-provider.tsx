@@ -1,3 +1,4 @@
+import LogPreview from '@/components/Log'
 import React, {
   createContext,
   useContext,
@@ -79,12 +80,13 @@ export const DrawerProvider: React.FC<{ children: ReactNode }> = ({
           ></label>
           <ul className="menu bg-base-200 text-base-content min-h-full min-w-lg max-w-2xl p-4">
             {/* Sidebar content here */}
-            <li>
+            {/* <li>
               <a>Sidebar Item 1</a>
             </li>
             <li>
               <a>Sidebar Item 2</a>
-            </li>
+            </li> */}
+            <LogPreview />
           </ul>
         </div>
       </div>
