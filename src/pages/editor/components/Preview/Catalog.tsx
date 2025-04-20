@@ -21,9 +21,9 @@ const Catalog = () => {
   }, [value])
   return !!value ? (
     <div className="p-4 pt-0">
-      <div className="flex items-center mb-3">
+      {/* <div className="flex items-center mb-3">
         <div className="badge badge-neutral">书籍目录</div>
-      </div>
+      </div> */}
       {/* <div className="option text-xs font-normal text-neutral-500 mb-2">
         可以点击具体条目查看正文
       </div> */}

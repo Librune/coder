@@ -11,9 +11,11 @@ import {
 const LogPreviewContext = createContext<{
   logs: string[]
   pushLog: (log: string) => void
+  clear: () => void
 }>({
   logs: [],
   pushLog: () => {},
+  clear: () => {},
 })
 
 export const useLogPreview = () => {
@@ -34,16 +36,19 @@ export const LogPreviewProvider = ({ children }: PropsWithChildren<{}>) => {
     [setLog]
   )
 
+  const clear = useCallback(() => {
+    setLog([])
+  }, [setLog])
+
   useEffect(() => {
     listen<string>('log', (event) => {
-      console.log('event:', event.payload)
       const log = event.payload
       setLog((prev) => [...prev, log])
     })
   }, [])
 
   return (
-    <LogPreviewContext.Provider value={{ logs, pushLog }}>
+    <LogPreviewContext.Provider value={{ logs, pushLog, clear }}>
       {children}
     </LogPreviewContext.Provider>
   )

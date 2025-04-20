@@ -12,9 +12,9 @@ const BookDetail = () => {
   }, [bid])
   return !!bookDetail ? (
     <div className="p-4 pt-0">
-      <div className="flex items-center mb-3">
+      {/* <div className="flex items-center mb-3">
         <div className="badge badge-neutral">书籍详情</div>
-      </div>
+      </div> */}
       <div className="flex">
         <img
           src={bookDetail.cover}

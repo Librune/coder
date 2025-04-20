@@ -1,7 +1,5 @@
-# Tauri + React + Typescript
+# Librune-Coder
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+基于 Tauri 开发的 Librune 脚本调试工具，支持实时编写，预览 UI，查看日志等功能
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+![main](images/main.png)

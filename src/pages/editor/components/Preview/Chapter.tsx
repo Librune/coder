@@ -23,9 +23,9 @@ const Chapter = () => {
   }, [bid])
   return !!value ? (
     <div className="p-4 pt-0">
-      <div className="flex items-center mb-3">
+      {/* <div className="flex items-center mb-3">
         <div className="badge badge-neutral">正文内容</div>
-      </div>
+      </div> */}
       <div className="option text-xs font-normal text-neutral-500 mb-2 whitespace-pre-wrap">
         {chapter?.content
           ? chapter.content.replace(/<br\s*\/?>/gi, '\n')
