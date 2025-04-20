@@ -2,6 +2,7 @@ mod cmds;
 mod log;
 
 use tauri::Manager;
+#[cfg(any(target_os = "macos", target_os = "windows"))]
 use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/

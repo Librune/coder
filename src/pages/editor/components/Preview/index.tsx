@@ -8,7 +8,7 @@ import MetaData from './MetaData'
 import SearchBooks from './SearchBooks'
 
 const Preview = () => {
-  const { bid, cid, chapter } = usePreview()
+  const { bid, cid } = usePreview()
   return (
     // <>
     //   <MetaData />
