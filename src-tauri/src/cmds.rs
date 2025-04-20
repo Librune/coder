@@ -2,7 +2,7 @@ use std::cell::RefCell;
 
 use book_core::BookCore;
 use serde_json::Value;
-use tauri::{AppHandle, Emitter};
+use tauri::AppHandle;
 
 use crate::log::TauriLogger;
 
