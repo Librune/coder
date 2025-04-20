@@ -10,6 +10,7 @@
 }
 
 :root {
+  user-select: none;
   background-color: rgba(255, 255, 255, 0.6);
   padding-top: 30px;
   /* padding-right: 16px; */
@@ -22,6 +23,7 @@
 
 #root {
   height: 100%;
+  user-select: none;
 }
 
 body {

@@ -22,7 +22,7 @@ const Chapter = () => {
     setChapter({})
   }, [bid])
   return !!value ? (
-    <div className="p-4">
+    <div className="p-4 pt-0">
       <div className="flex items-center mb-3">
         <div className="badge badge-neutral">正文内容</div>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import { Editor, useMonaco } from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
-import { useWindowSize } from 'react-use'
+import { useMeasure, useSize, useWindowSize } from 'react-use'
 import declare from '../../../libs/declare.d.ts?raw'
 import { convert } from '../../../libs/convert'
 import { usePreview } from '../provider'
@@ -15,13 +15,13 @@ export interface CodeEditorRef {
 const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
   const monaco = useMonaco()
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
-  const windowSize = useWindowSize()
+  // const windowSize = useWindowSize()
   // const { code } = useEditor()
-  const { metadata } = usePreview()
+  // const { metadata } = usePreview()
 
-  useEffect(() => {
-    editorRef.current?.layout()
-  }, [windowSize])
+  // useEffect(() => {
+  //   editorRef.current?.layout()
+  // }, [windowSize])
 
   // 暴露getCode方法给父组件
   useImperativeHandle(ref, () => ({
@@ -75,31 +75,35 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
     }
   }, [monaco])
 
+  const [xref, { width, height }] = useMeasure<HTMLDivElement>()
+
+  useEffect(() => {
+    // 刷新编辑器布局
+    editorRef.current?.layout()
+  }, [width, height])
+
   return (
-    <div className="flex-1 mt-2">
-      <div id="coder" className="h-full">
-        <Editor
-          width={!metadata ? '100%' : 'calc(100vw - 450px)'}
-          language="typescript"
-          options={{
-            stickyScroll: {
-              enabled: false,
-            },
-            automaticLayout: true,
-            minimap: { enabled: false },
-            renderLineHighlight: 'none',
-            glyphMargin: false,
-            folding: false,
-            lineNumbers: 'on',
-            scrollbar: {
-              vertical: 'hidden',
-              horizontal: 'hidden',
-            },
-          }}
-          theme={'coder'}
-          onMount={handleEditorDidMount}
-        />
-      </div>
+    <div className="flex-1 mt-2 h-full overflow-hidden" ref={xref} id="coder">
+      <Editor
+        language="typescript"
+        options={{
+          stickyScroll: {
+            enabled: false,
+          },
+          automaticLayout: true,
+          minimap: { enabled: false },
+          renderLineHighlight: 'none',
+          glyphMargin: false,
+          folding: false,
+          lineNumbers: 'on',
+          scrollbar: {
+            vertical: 'hidden',
+            horizontal: 'hidden',
+          },
+        }}
+        theme={'coder'}
+        onMount={handleEditorDidMount}
+      />
     </div>
   )
 })

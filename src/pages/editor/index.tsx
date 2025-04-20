@@ -8,6 +8,8 @@ import { useDrawer } from '@/providers/drawer-provider'
 import { message, save } from '@tauri-apps/plugin-dialog'
 import { exists, writeTextFile } from '@tauri-apps/plugin-fs'
 import EditorProvider, { usePreview, usePreviewActions } from './provider'
+import NavBar from './components/NavBar'
+import LogPreview from '@/components/Log'
 
 const Editor = () => {
   const codeEditorRef = useRef<CodeEditorRef>(null)
@@ -62,8 +64,8 @@ const Editor = () => {
     <>
       {/* <NavBar /> */}
       {/* <FileTabs /> */}
-      <div className="flex flex-grow flex-col md:flex-row h-full pt-1 ">
-        <div className="flex-1 flex h-full flex-col pr-2 relative">
+      <div className="flex flex-grow flex-col md:flex-row h-full pt-1">
+        <div className="flex-1 flex h-full flex-col pr-2 relative min-w-[0px]">
           <div className="flex-row pl-4">
             <button className="btn btn-ghost btn-sm" onClick={handleSubmitCode}>
               <span className="mgc_play_line text-[15px]"></span>
@@ -104,6 +106,16 @@ const Editor = () => {
             </div>
           </div>
         )}
+        {
+          <div className="w-[420px] h-[calc(100vh-48px)] flex-col flex mr-4">
+            <div className="bg-neutral-100/50 w-full h-full rounded-lg mt-1 border border-neutral-300">
+              {/* <MetaData />
+              <SearchBooks /> */}
+              {/* <BookSourceFormGroup /> */}
+              <LogPreview />
+            </div>
+          </div>
+        }
         {/* <CodeEditor />
         <div className="hidden md:block md:w-1/4 lg:w-1/3">
           <SuggestionSidebar />
