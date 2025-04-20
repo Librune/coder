@@ -21,6 +21,7 @@ const Preview = () => {
       <input
         type="radio"
         name="my_tabs_2"
+        defaultChecked
         className="tab"
         aria-label="概览"
         style={{ marginLeft: '12px' }}
