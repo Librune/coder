@@ -3,14 +3,14 @@ import { usePreview, usePreviewActions } from '../../provider'
 import { invoke } from '@tauri-apps/api/core'
 
 const BookDetail = () => {
-  const { bookDetail, bid } = usePreview()
+  const { bookDetail = {}, bid } = usePreview()
   const { setBookDetail } = usePreviewActions()
   useEffect(() => {
     invoke<string>('get_book_detail', { bid }).then((res) => {
       setBookDetail(res)
     })
   }, [bid])
-  return !!bookDetail ? (
+  return (
     <div className="p-4 pt-0">
       {/* <div className="flex items-center mb-3">
         <div className="badge badge-neutral">书籍详情</div>
@@ -58,8 +58,6 @@ const BookDetail = () => {
         </div>
       </div>
     </div>
-  ) : (
-    <></>
   )
 }
 

@@ -1,3 +1,4 @@
+import { usePreview } from '../../provider'
 import Actions from './Actions'
 import BookDetail from './BookDetail'
 import Catalog from './Catalog'
@@ -7,6 +8,7 @@ import MetaData from './MetaData'
 import SearchBooks from './SearchBooks'
 
 const Preview = () => {
+  const { bid, cid, chapter } = usePreview()
   return (
     // <>
     //   <MetaData />
@@ -49,45 +51,57 @@ const Preview = () => {
         <SearchBooks />
       </div>
 
-      <input
-        type="radio"
-        name="my_tabs_2"
-        className="tab"
-        aria-label="详情"
-        style={{ marginLeft: '12px' }}
-      />
-      <div
-        className="tab-content overflow-auto"
-        style={{ height: 'calc(100vh - 108px)' }}
-      >
-        <BookDetail />
-      </div>
-      <input
-        type="radio"
-        name="my_tabs_2"
-        className="tab"
-        aria-label="目录"
-        style={{ marginLeft: '12px' }}
-      />
-      <div
-        className="tab-content overflow-auto"
-        style={{ height: 'calc(100vh - 108px)' }}
-      >
-        <Catalog />
-      </div>
-      <input
-        type="radio"
-        name="my_tabs_2"
-        className="tab"
-        aria-label="章节"
-        style={{ marginLeft: '12px' }}
-      />
-      <div
-        className="tab-content overflow-auto"
-        style={{ height: 'calc(100vh - 108px)' }}
-      >
-        <Chapter />
-      </div>
+      {!!bid && (
+        <>
+          <input
+            type="radio"
+            name="my_tabs_2"
+            className="tab"
+            aria-label="详情"
+            style={{ marginLeft: '12px' }}
+          />
+          <div
+            className="tab-content overflow-auto"
+            style={{ height: 'calc(100vh - 108px)' }}
+          >
+            <BookDetail />
+          </div>
+        </>
+      )}
+      {!!bid && (
+        <>
+          <input
+            type="radio"
+            name="my_tabs_2"
+            className="tab"
+            aria-label="目录"
+            style={{ marginLeft: '12px' }}
+          />
+          <div
+            className="tab-content overflow-auto"
+            style={{ height: 'calc(100vh - 108px)' }}
+          >
+            <Catalog />
+          </div>
+        </>
+      )}
+      {!!cid && (
+        <>
+          <input
+            type="radio"
+            name="my_tabs_2"
+            className="tab"
+            aria-label="章节"
+            style={{ marginLeft: '12px' }}
+          />
+          <div
+            className="tab-content overflow-auto"
+            style={{ height: 'calc(100vh - 108px)' }}
+          >
+            <Chapter />
+          </div>
+        </>
+      )}
     </div>
   )
 }
