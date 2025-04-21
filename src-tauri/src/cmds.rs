@@ -14,7 +14,7 @@ thread_local! {
 pub fn emit_code(app: AppHandle, code: String) {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
-        *bks = Some(BookCore::init(code, None));
+        *bks = Some(BookCore::init(code));
         bks.as_mut()
             .unwrap()
             .regist_cust_logger(TauriLogger { app });
@@ -66,10 +66,23 @@ pub fn search_books(key: String, page: u8, count: u8) -> Result<Value, String> {
     })
 }
 
-// #[tauri::command]
-// pub fn set_env(uuid: String, env: HashMap<String, String>) {
-//     book_core::set_env(uuid, env);
-// }
+#[tauri::command]
+pub fn set_envs(envs: Value) {
+    BKS.with(|bks| {
+        let mut bks = bks.borrow_mut();
+        let bks = bks.as_mut().unwrap();
+        bks.set_envs(envs).unwrap();
+    })
+}
+
+#[tauri::command]
+pub fn get_envs() -> Result<Value, String> {
+    BKS.with(|bks| {
+        let mut bks = bks.borrow_mut();
+        let bks = bks.as_mut().unwrap();
+        bks.get_envs()
+    })
+}
 
 #[tauri::command]
 pub fn get_book_detail(bid: String) -> Result<Value, String> {

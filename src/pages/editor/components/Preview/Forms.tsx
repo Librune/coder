@@ -2,6 +2,7 @@ import Input from '@/components/Input'
 import Button from '@/components/Button'
 import { useForm } from 'react-hook-form'
 import { usePreview } from '../../provider'
+import { invoke } from '@tauri-apps/api/core'
 
 const InputCmp = {
   input: Input,
@@ -10,22 +11,20 @@ const InputCmp = {
 
 const Forms = () => {
   const { forms } = usePreview()
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, reset } = useForm()
 
   const onSubmit = async (data: any, event: any) => {
-    console.log('data:', data)
-    console.log('event:', event)
-    // const id = event.nativeEvent.submitter.id
-    // await invoke('set_env', { uuid, env: data })
-    // try {
-    //   const res = await invoke<Record<string, any>>('run_action', {
-    //     // uuid,
-    //     action: id,
-    //   })
-    //   reset(res)
-    // } catch (err) {
-    //   console.error('err:', err)
-    // }
+    const id = event.nativeEvent.submitter.id
+    await invoke('set_envs', { envs: data })
+    try {
+      await invoke<Record<string, any>>('run_action', {
+        action: id,
+      })
+      let envs = await invoke<Record<string, any>>('get_envs')
+      reset(envs)
+    } catch (err) {
+      console.error('err:', err)
+    }
   }
 
   return !!forms ? (
