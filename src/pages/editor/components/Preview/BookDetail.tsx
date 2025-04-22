@@ -11,12 +11,13 @@ const BookDetail = () => {
     })
   }, [bid])
   return (
-    <div className="p-4 pt-0">
+    <div className="p-4 pt-0 select-text">
       {/* <div className="flex items-center mb-3">
         <div className="badge badge-neutral">书籍详情</div>
       </div> */}
       <div className="flex">
         <img
+          referrerPolicy="no-referrer"
           src={bookDetail.cover}
           className="w-22 h-32 fit-cover rounded-sm"
         />

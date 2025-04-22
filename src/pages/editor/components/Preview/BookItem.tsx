@@ -25,6 +25,7 @@ const BookItem = (props: BookItemProps) => {
       <img
         src={props.cover}
         alt="Book Cover"
+        referrerPolicy="no-referrer"
         width={72}
         className="fit-cover rounded-sm mr-3"
       />

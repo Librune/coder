@@ -3,7 +3,7 @@ import { useLogPreview } from '@/providers/log-provider'
 const LogPreview = () => {
   const { logs, clear } = useLogPreview()
   return (
-    <div className=" pl-2 pr-2 pt-2 h-full overflow-auto">
+    <div className=" pl-2 pr-2 pt-2 h-full overflow-auto select-text">
       {!logs.length ? (
         <div className="text-center text-gray-400 option text-xs font-normal align-middle h-full flex items-center justify-center">
           暂无日志，请在脚本中使用 console.log 打印内容
