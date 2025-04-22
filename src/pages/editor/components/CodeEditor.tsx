@@ -1,12 +1,14 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
-import { Editor, useMonaco } from '@monaco-editor/react'
+import { Editor, OnChange, useMonaco } from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
 import { useMeasure } from 'react-use'
 import declare from '../../../libs/declare.d.ts?raw'
 import { convert } from '../../../libs/convert'
+import initialCodes from '@/assets/code?raw'
 
 export interface CodeEditorRef {
   getCode: () => Promise<string | undefined>
+  reset: () => void
   layout: () => void
 }
 
@@ -18,11 +20,21 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
     layout: () => {
       editorRef.current?.layout()
     },
+    reset: () => {
+      editorRef.current?.setValue(initialCodes)
+    },
   }))
 
   // 获取编辑器实例
   const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor
+     // 设置默认代码
+     const currentCode = localStorage.getItem('currentCode')
+     if (currentCode) {
+       editorRef.current?.setValue(currentCode)
+     }else{
+       editorRef.current?.setValue(initialCodes)
+     }
   }
 
   useEffect(() => {
@@ -71,6 +83,10 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
     editorRef.current?.layout()
   }, [width, height])
 
+  const onCodeChange:OnChange = (value)=>{
+    localStorage.setItem('currentCode', value || '')
+  }
+
   return (
     <div className="flex-1 mt-2 h-full overflow-hidden" ref={xref} id="coder">
       <Editor
@@ -92,6 +108,7 @@ const CodeEditor = forwardRef<CodeEditorRef, {}>((_, ref) => {
         }}
         theme={'coder'}
         onMount={handleEditorDidMount}
+        onChange={onCodeChange}
       />
     </div>
   )

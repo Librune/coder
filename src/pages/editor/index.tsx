@@ -58,7 +58,7 @@ const Editor = () => {
               <span className="mgc_play_line text-[15px]"></span>
               <div className="text-[13px] font-normal">运行</div>
             </button>
-            <button className="btn btn-ghost btn-sm">
+            <button className="btn btn-ghost btn-sm" onClick={() => codeEditorRef.current?.reset()}>
               <span className="mgc_refresh_2_line text-[15px]"></span>
               <div className="text-[13px] font-normal">重置</div>
             </button>

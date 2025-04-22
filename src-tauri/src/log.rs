@@ -10,7 +10,7 @@ pub struct TauriLogger {
 }
 
 impl Logger for TauriLogger {
-    fn log(&self, msg: String, state: &ConsoleState, _context: &mut Context) -> JsResult<()> {
+    fn log(&self, msg: String, _state: &ConsoleState, _context: &mut Context) -> JsResult<()> {
         self.app.emit("log", msg).unwrap();
         Ok(())
     }

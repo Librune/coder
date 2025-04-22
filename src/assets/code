@@ -1,0 +1,29 @@
+import { Form, MetaData, SearchFn } from 'declare'
+
+const metadata: MetaData = {
+    name: '',
+    uuid: '',
+    baseUrl: '',
+    userAgent: '',
+    author: '',
+}
+
+const forms: Form[] = []
+
+const actions = []
+
+const search: SearchFn = (params) => {
+
+}
+
+const detail = ({ bid }) => {
+
+}
+
+const catalog = ({ bid }) => {
+   
+}
+
+const chapter = ({ bid, cid }) => {
+   
+}
