@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use book_core::BookCore;
+use book_core::{Action, BookCore, BookDetail, CatalogVolume, Chapter, Form, MetaData, SearchBook};
 use serde_json::Value;
 use tauri::AppHandle;
 
@@ -22,7 +22,7 @@ pub fn emit_code(app: AppHandle, code: String) {
 }
 
 #[tauri::command]
-pub fn get_metadata() -> Result<String, String> {
+pub fn get_metadata() -> Result<MetaData, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -31,7 +31,7 @@ pub fn get_metadata() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub fn get_forms() -> Result<String, String> {
+pub fn get_forms() -> Result<Vec<Form>, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -40,7 +40,7 @@ pub fn get_forms() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub fn get_actions() -> Result<String, String> {
+pub fn get_actions() -> Result<Vec<Action>, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -49,7 +49,7 @@ pub fn get_actions() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub fn run_action(action: String) -> Result<String, String> {
+pub fn run_action(action: String) -> Result<Value, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -58,7 +58,7 @@ pub fn run_action(action: String) -> Result<String, String> {
 }
 
 #[tauri::command]
-pub fn search_books(key: String, page: u8, count: u8) -> Result<Value, String> {
+pub fn search_books(key: String, page: u8, count: u8) -> Result<Vec<SearchBook>, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -85,7 +85,7 @@ pub fn get_envs() -> Result<Value, String> {
 }
 
 #[tauri::command]
-pub fn get_book_detail(bid: String) -> Result<Value, String> {
+pub fn get_book_detail(bid: String) -> Result<BookDetail, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -94,7 +94,7 @@ pub fn get_book_detail(bid: String) -> Result<Value, String> {
 }
 
 #[tauri::command]
-pub fn get_catalog(bid: String) -> Result<Value, String> {
+pub fn get_catalog(bid: String) -> Result<Vec<CatalogVolume>, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
@@ -103,7 +103,7 @@ pub fn get_catalog(bid: String) -> Result<Value, String> {
 }
 
 #[tauri::command]
-pub fn get_chapter(bid: String, cid: String) -> Result<Value, String> {
+pub fn get_chapter(bid: String, cid: String) -> Result<Chapter, String> {
     BKS.with(|bks| {
         let mut bks = bks.borrow_mut();
         let bks = bks.as_mut().unwrap();
