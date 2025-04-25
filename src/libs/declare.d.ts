@@ -92,12 +92,20 @@ declare global {
   // xml2json 函数
   declare function xml2Json(xml: string): Record<string, any>
 
+  // randString 函数
+  declare function randString(length: number): string
+
   interface Object {
     toQuery(): string
   }
 
   interface String {
-    toBase64(): string
+    toBase64(): string;
+    toMd5(): string;
+    toSha224(): string;
+    toSha256(): string;
+    toSha384(): string;
+    toSha512(): string;
   }
 }
 /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console) */

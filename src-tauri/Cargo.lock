@@ -539,7 +539,7 @@ dependencies = [
 [[package]]
 name = "book_core"
 version = "0.1.0"
-source = "git+https://github.com/Librune/core#93816e8bdb33e39bbcd1f09d5fa4bf341d04508a"
+source = "git+https://github.com/Librune/core#ff8a200bccf0ee00feb4195e3f09fe95cde98683"
 dependencies = [
  "aes",
  "base64 0.22.1",
@@ -558,6 +558,7 @@ dependencies = [
  "once_cell",
  "percent-encoding",
  "quickxml_to_serde",
+ "rand 0.9.1",
  "regex",
  "reqwest",
  "rustc-hash",
