@@ -6,6 +6,7 @@ const metadata: MetaData = {
     baseUrl: '',
     userAgent: '',
     author: '',
+    version: '',
 }
 
 const forms: Form[] = []

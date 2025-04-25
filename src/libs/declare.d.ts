@@ -1,25 +1,17 @@
 /// <reference types="declare" />
 export interface MetaData {
-  /**
-   * 书源名称
-   */
+  /** 书源名称 */
   name: string
-  /**
-   * 书源ID：UUID-v4格式
-   */
-  uuid?: string
-  /**
-   * 基础地址
-   */
+  /** 书源ID：UUID-v4格式 */
+  uuid: string
+  /** 基础地址 */
   baseUrl: string
-  /**
-   * 用户代理
-   */
+  /** 用户代理 */
   userAgent?: string
-  /**
-   * 作者
-   */
-  author: string
+  /** 作者 */
+  author: string,
+  /** 版本号 */
+  version: string
 }
 
 interface SearchOptions {
@@ -37,33 +29,19 @@ interface SearchResultItem {
 type SearchFn = (options: SearchOptions) => any[]
 
 export type JReqwestOptions = {
-  /**
-   * 请求头
-   */
+  /** * 请求头 */
   headers?: Record<string, string>
-  /**
-   * 超时时间
-   */
+  /** * 超时时间 */
   timeout?: number
-  /**
-   * 请求体 - string
-   */
+  /** * 请求体 - string */
   data?: string
-  /**
-   * 请求体 - FormData
-   */
+  /** * 请求体 - FormData */
   form?: Record<string, number | string | boolean>
-  /**
-   * 请求体 - JSON
-   */
+  /** * 请求体 - JSON */
   json?: Record<string, number | string | boolean>
-  /**
-   * URL参数
-   */
+  /** * URL参数  */
   query?: Record<string, number | string | boolean>
-  /**
-   * 是否 gbk 编码
-   */
+  /**  * 是否 gbk 编码  */
   gbk?: boolean
 }
 
@@ -81,6 +59,10 @@ export type Form = {
   }[]
 }
 
+export type CipherMode = 'cbc' | 'cfb' | 'ofb'
+export type AesType = 'aes128'  | 'aes192' | 'aes256'
+export type PaddingType = 'pkcs7' | 'zeropadding' | 'nopadding' | 'iso10126' | 'ansix923' | 'iso7816'
+
 // 扩展全局命名空间
 declare global {
   declare var console: Console
@@ -92,6 +74,19 @@ declare global {
     static post(url: string, options?: JReqwestOptions): any
     static put(url: string, options?: JReqwestOptions): any
     static delete(url: string, options?: JReqwestOptions): any
+  }
+
+  class Aes{
+    constructor(aesOptions:{
+      cipherMode: CipherMode;
+      aesType: AesType;
+      paddingType: PaddingType;
+      encoding: Encoding;
+      key: string,
+      iv: string | number[]
+    })
+    encrypt(data: string): string
+    decrypt(data: string): string
   }
 
   // xml2json 函数

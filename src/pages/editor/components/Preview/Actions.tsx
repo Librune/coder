@@ -21,7 +21,7 @@ const Actions = () => {
             onClick={() => onClick(action.action)}
             type="submit"
           >
-            <div className="text-[13px] font-normal">{action.name}</div>
+            <div className="text-[13px] font-normal">{action.label}</div>
           </button>
         </div>
       ))}

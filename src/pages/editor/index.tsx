@@ -17,12 +17,12 @@ const Editor = () => {
       const code = await codeEditorRef.current?.getCode()
       await invoke<string>('emit_code', { code })
       try {
-        const metadata = await invoke<string>('get_metadata')
-        const forms = await invoke<string>('get_forms')
-        const actions = await invoke<string>('get_actions')
-        setMetadata(JSON.parse(metadata))
-        setForm(JSON.parse(forms))
-        setActions(JSON.parse(actions))
+        const metadata = await invoke<any>('get_metadata')
+        const forms = await invoke<any>('get_forms')
+        const actions = await invoke<any>('get_actions')
+        setMetadata(metadata)
+        setForm(forms)
+        setActions(actions)
       } catch (err) {
         console.log('err:', err)
         message(String(err), { title: '调用错误', kind: 'error' })
