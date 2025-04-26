@@ -28,21 +28,21 @@ const Catalog = () => {
         可以点击具体条目查看正文
       </div> */}
       {!!catalog?.length &&
-        catalog.map((item: any) => (
-          <div key={item.vid}>
+        catalog.map((item) => (
+          <div key={item.id}>
             <div className="text-xs text-neutral-500 font-normal mt-3 mb-2">
-              {item.title}
+              {item.name}
             </div>
             <ul className="menu bg-base-200 rounded-box w-full">
-              {item.chapters.map((chapter: any) => (
+              {item.chapters.map((chapter) => (
                 <li
-                  key={chapter.cid}
+                  key={chapter.id}
                   className="text-xs text-neutral-500 font-normal cursor-pointer hover:text-accent cursor-pointer mt-3"
                   onClick={() => {
-                    setCid(chapter.cid)
+                    setCid(chapter.id)
                   }}
                 >
-                  {chapter.title}
+                  {chapter.name}
                 </li>
               ))}
             </ul>

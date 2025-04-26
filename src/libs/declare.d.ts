@@ -47,6 +47,7 @@ export interface SearchBook {
   description: string;
   status: BookStatus;
   tags?: string[];
+  copyright?: string;
   last_update_time?: string;
 }
 
@@ -54,6 +55,7 @@ export interface SearchBook {
 export interface BookLatestChapter {
   id: string;
   name: string;
+  updateTime?: string;
 }
 
 // 额外数据
@@ -73,7 +75,7 @@ export interface BookDetail {
   copyright?: string;
   status: BookStatus;
   lastUpdate?: string;
-  latestChapter: BookLatestChapter;
+  latestChapter?: BookLatestChapter;
   extraDatas?: BookExtraData[];
 }
 

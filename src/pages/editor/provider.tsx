@@ -1,4 +1,4 @@
-import { Form, MetaData } from '@/libs/declare'
+import { BookDetail, Form, MetaData, Volume } from '@/libs/declare'
 import {
   createContext,
   PropsWithChildren,
@@ -56,8 +56,8 @@ export type PreviewProviderContextType = {
   searchKey?: string
   searchResult?: any[]
   bid?: string
-  bookDetail?: any
-  catalog?: any[]
+  bookDetail?: BookDetail
+  catalog?: Volume[]
   cid?: string
   chapter?: any
 }
@@ -104,7 +104,7 @@ type PreviewActions = {
   setSearchResult: (result: any[]) => void
   setBid: (bid: string) => void
   setBookDetail: (bookDetail: any) => void
-  setCatalog: (catalog: any[]) => void
+  setCatalog: (catalog: Volume[]) => void
   setCid: (chapcidterId: string) => void
   setChapter: (chapter: any) => void
 }
@@ -163,7 +163,7 @@ const EditorProvider = ({ children }: PropsWithChildren<{}>) => {
       setSearchResult: (result: any[]) =>
         dispatch({ type: 'SET_SEARCH_RESULT', payload: result }),
       setBid: (bid: string) => dispatch({ type: 'SET_BOOK_ID', payload: bid }),
-      setBookDetail: (bookDetail: any) =>
+      setBookDetail: (bookDetail: BookDetail) =>
         dispatch({ type: 'SET_BOOK_DETAIL', payload: bookDetail }),
       setCatalog: (catalog: any[]) =>
         dispatch({ type: 'SET_CATALOG', payload: catalog }),
