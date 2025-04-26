@@ -1,155 +1,210 @@
 /// <reference types="declare" />
+// 元数据接口定义
 export interface MetaData {
-  /** 书源名称 */
-  name: string
-  /** 书源ID：UUID-v4格式 */
-  uuid: string
-  /** 基础地址 */
-  baseUrl: string
-  /** 用户代理 */
-  userAgent?: string
-  /** 作者 */
-  author: string,
-  /** 版本号 */
-  version: string
+  name: string;
+  uuid: string;
+  baseUrl: string;
+  userAgent: string;
+  author: string;
+  version: string;
+  proxy?: {
+    host: string;
+    port: number;
+    proxyType?: "http" | "https" | "socks4" | "socks5";
+    username?: string;
+    password?: string;
+  };
 }
 
-interface SearchOptions {
-  key: string
-  page?: number
-  count?: number
+// 表单字段类型
+export type FormFieldType = "input" | "select" | "checkbox" | "button";
+
+// 表单字段接口
+export interface FormField {
+  fieldType: FormFieldType;
+  field: string;
+  label: string;
+  placeholder?: string;
+  password?: boolean;
 }
 
-interface SearchResultItem {
-  id: string
-  title: string
-  content: string
+// 表单接口
+export interface Form {
+  title: string;
+  description?: string;
+  fields: FormField[];
 }
 
-type SearchFn = (options: SearchOptions) => any[]
+// 图书状态
+export type BookStatus = "0" | "1" | "2" | "3"; // 连载中、已完成、已移除、已停止
 
-export type JReqwestOptions = {
-  /** * 请求头 */
-  headers?: Record<string, string>
-  /** * 超时时间 */
-  timeout?: number
-  /** * 请求体 - string */
-  data?: string
-  /** * 请求体 - FormData */
-  form?: Record<string, number | string | boolean>
-  /** * 请求体 - JSON */
-  json?: Record<string, number | string | boolean>
-  /** * URL参数  */
-  query?: Record<string, number | string | boolean>
-  /**  * 是否 gbk 编码  */
-  gbk?: boolean
+// 搜索结果图书
+export interface SearchBook {
+  id: string;
+  name: string;
+  author: string;
+  cover: string;
+  description: string;
+  status: BookStatus;
+  tags?: string[];
+  last_update_time?: string;
 }
 
-export type FormFieldType = 'input' | 'button'
-
-export type Form = {
-  name: string
-  desc?: string
-  fields: {
-    type: FormFieldType
-    field: string
-    label: string
-    placeholder?: string
-    password?: boolean
-  }[]
+// 最新章节
+export interface BookLatestChapter {
+  id: string;
+  name: string;
 }
 
-export type CipherMode = 'cbc' | 'cfb' | 'ofb'
-export type AesType = 'aes128'  | 'aes192' | 'aes256'
-export type PaddingType = 'pkcs7' | 'zeropadding' | 'nopadding' | 'iso10126' | 'ansix923' | 'iso7816'
+// 额外数据
+export interface BookExtraData {
+  label: string;
+  value: string;
+}
 
-// 扩展全局命名空间
+// 图书详情
+export interface BookDetail {
+  id: string;
+  name: string;
+  author: string;
+  description: string;
+  wordCount?: string;
+  cover: string;
+  copyright?: string;
+  status: BookStatus;
+  lastUpdate?: string;
+  latestChapter: BookLatestChapter;
+  extraDatas?: BookExtraData[];
+}
+
+// 章节
+export interface Chapter {
+  name: string;
+  id: string;
+  isVip: boolean;
+  canRead: boolean;
+}
+
+// 卷
+export interface Volume {
+  id: string;
+  name: string;
+  chapters: Chapter[];
+}
+
+// 请求选项
+export interface RequestOptions {
+  headers?: Record<string, string>;
+  timeout?: number;
+  body?: string;
+  json?: any;
+  form?: Record<string, string>;
+  query?: Record<string, string>;
+  gbk?: boolean;
+}
+
+// 请求响应
+export interface Response {
+  ok: boolean;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  body: string;
+}
+
+// 加密类选项
+export interface AesOptions {
+  cipherMode: "cbc" | "cfb" | "ofb";
+  aesType: "aes128" | "aes192" | "aes256";
+  paddingType:
+    | "nopadding"
+    | "pkcs7"
+    | "zeropadding"
+    | "iso10126"
+    | "ansix923"
+    | "iso7816";
+  encoding: "base64" | "hex";
+  key: string;
+  iv: string | number[];
+}
+
+// HMAC选项
+export interface HmacOptions {
+  hash: "md5" | "sha1" | "sha256" | "sha384" | "sha512";
+  encoding: "base64" | "hex";
+  key: string;
+}
+
+// 搜索选项
+export interface SearchOptions {
+  key: string;
+  page: number;
+  count: number;
+}
+
+export type SearchFn = (options: SearchOptions) => SearchBook[];
+
+export type HashType = "1" | "224" | "256" | "384" | "512";
+
 declare global {
-  declare var console: Console
-  // 全局环境
-  declare var __ENVS__: Record<string, any>
-  // JReqwest 类，提供 get、post、put、delete 静态方法
+  // 全局变量
+  const metadata: MetaData;
+  const __ENVS__: Record<string, any>;
+  // console
+  declare var console: {
+    log(...args: any[]): void;
+  };
+  // 请求类
   class JReqwest {
-    static get(url: string, options?: JReqwestOptions): any
-    static post(url: string, options?: JReqwestOptions): any
-    static put(url: string, options?: JReqwestOptions): any
-    static delete(url: string, options?: JReqwestOptions): any
+    static get(url: string, options?: RequestOptions): Response;
+    static post(url: string, options?: RequestOptions): Response;
+    static put(url: string, options?: RequestOptions): Response;
+    static delete(url: string, options?: RequestOptions): Response;
+    static head(url: string, options?: RequestOptions): Response;
   }
 
-  class Aes{
-    constructor(aesOptions:{
-      cipherMode: CipherMode;
-      aesType: AesType;
-      paddingType: PaddingType;
-      encoding: Encoding;
-      key: string,
-      iv: string | number[]
-    })
-    encrypt(data: string): string
-    decrypt(data: string): string
+  // 加密类
+  class Aes {
+    constructor(options: AesOptions);
+    encrypt(data: string): string;
+    decrypt(data: string): string;
   }
 
-  // xml2json 函数
-  declare function xml2Json(xml: string): Record<string, any>
-
-  // randString 函数
-  declare function randString(length: number): string
-
-  interface Object {
-    toQuery(): string
+  class Hmac {
+    constructor(options: HmacOptions);
+    update(data: string): string;
   }
 
+  // HTML解析类
+  class JScraper {
+    constructor(html: string);
+    text(): string;
+  }
+
+  // 全局函数
+  function xml2Json(xml: string): any;
+  function randString(length: number): string;
+  function uuid(): string;
+  function isUuid(str: string): boolean;
+
+  // 环境变量操作
+  function setEnv(key: string, value: any): void;
+  function getEnv(key: string): any;
+  function setEnvs(envs: Record<string, any>): void;
+  function getEnvs(): Record<string, any>;
+  function clearEnvs(): void;
+
+  // String 原型扩展
   interface String {
+    toGbk(): string;
     toBase64(): string;
     toMd5(): string;
-    toSha224(): string;
-    toSha256(): string;
-    toSha384(): string;
-    toSha512(): string;
+    toAscii(): number[];
+    toSha(hash: HashType, toString?: boolean): string;
+  }
+
+  // Object 原型扩展
+  interface Object {
+    toQuery(): string;
   }
 }
-/** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console) */
-interface Console {
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/assert_static) */
-  assert(condition?: boolean, ...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/clear_static) */
-  clear(): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/count_static) */
-  count(label?: string): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/countReset_static) */
-  countReset(label?: string): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/debug_static) */
-  debug(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/dir_static) */
-  dir(item?: any, options?: any): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/dirxml_static) */
-  dirxml(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/error_static) */
-  error(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/group_static) */
-  group(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/groupCollapsed_static) */
-  groupCollapsed(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/groupEnd_static) */
-  groupEnd(): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/info_static) */
-  info(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/log_static) */
-  log(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/table_static) */
-  table(tabularData?: any, properties?: string[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/time_static) */
-  time(label?: string): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/timeEnd_static) */
-  timeEnd(label?: string): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/timeLog_static) */
-  timeLog(label?: string, ...data: any[]): void
-  timeStamp(label?: string): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/trace_static) */
-  trace(...data: any[]): void
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/console/warn_static) */
-  warn(...data: any[]): void
-}
-
-// 导出类型以便使用
-export { SearchOptions, SearchResultItem, SearchFn }

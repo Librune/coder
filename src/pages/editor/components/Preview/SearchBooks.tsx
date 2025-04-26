@@ -41,7 +41,7 @@ const SearchBooks = () => {
         </button>
       </fieldset>
       {searchResult.map((book) => (
-        <div key={book.bid} className="mt-3">
+        <div key={book.id} className="mt-3">
           <BookItem {...book} />
         </div>
       ))}

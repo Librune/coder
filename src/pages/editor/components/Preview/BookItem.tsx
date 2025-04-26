@@ -1,21 +1,13 @@
+import { SearchBook } from '@/libs/declare'
 import { usePreviewActions } from '../../provider'
 
-type BookItemProps = {
-  bid: string
-  name: string
-  author: string
-  cover: string
-  description: string
-  creationStatus: string
-  tag: string[]
-  update: string
-}
+ 
 
-const BookItem = (props: BookItemProps) => {
-  const { bid } = props
+const BookItem = (props: SearchBook) => {
+  const { id } = props
   const { setBid } = usePreviewActions()
   const handlClick = () => {
-    setBid(bid)
+    setBid(id)
   }
   return (
     <div
@@ -38,10 +30,10 @@ const BookItem = (props: BookItemProps) => {
           作者：{props.author}
         </p>
         <p className="option text-xs font-normal text-neutral-500">
-          更新时间：{props.update}
+          更新时间：{props.last_update_time}
         </p>
         <p className="option text-xs font-normal text-neutral-500">
-          标签：{props.tag.join(', ')}
+          标签：{props.tags?.join(', ')}
         </p>
       </div>
     </div>
